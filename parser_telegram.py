@@ -52,7 +52,7 @@ def main():
                 last_seen_ads.add(ad)
 
         # Пауза 
-        time.sleep(600)
+        time.sleep(900)
 
 if __name__ == "__main__":
     main()
