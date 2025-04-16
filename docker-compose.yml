@@ -1,0 +1,14 @@
+version: '3'
+services:
+  kufar-parser:
+    image: alexkomendantov/kufar-parser
+    container_name: kufar-parser
+    restart: always
+    environment:
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - SERVER_IP=${SERVER_IP}
+      - SERVER_USER=${SERVER_USER}
+      - SERVER_PASSWORD=${SERVER_PASSWORD}
+    volumes:
+      - ./parser_telegram.py:/app/parser_telegram.py  

@@ -1,0 +1,35 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t alexkomendantov/kufar-parser .
+
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Deploy to server
+        env:
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}  
+        run: |
+          sshpass -p $SERVER_PASSWORD scp -o StrictHostKeyChecking=no docker-compose.yml root@45.87.153.129:/root/kufar-parser/
+          sshpass -p $SERVER_PASSWORD scp -o StrictHostKeyChecking=no parser_telegram.py root@45.87.153.129:/root/kufar-parser/
+
+          sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no root@45.87.153.129 <<EOF
+            cd /root/kufar-parser
+            docker-compose up -d
+          EOF
