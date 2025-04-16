@@ -23,8 +23,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t your_username/kufar-parser .
+          docker build -t alexkomendantov/kufar-parser .
         
       - name: Push Docker image to Docker Hub
         run: |
-          docker push your_username/kufar-parser
+          docker push alexkomendantov/kufar-parser
